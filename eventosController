@@ -1,0 +1,66 @@
+<?php
+
+class Eventos extends AppController
+{
+	public function index(){
+		$conditions = array(
+			"conditions"=>" eventos.calendario_id=calendarios.id"
+		);
+		$eventos = $this->db->find("eventos, calendarios", "all", $conditions);
+		$eventos = $tareas->fetchAll(PDO::FETCH_NUM);
+		$calendarios = $this->db->find("calendarios", "all");
+		$this->set("eventos", $eventos);
+		$this->set("calendarios", $calendarios);
+	}
+
+	public function add(){
+		if($_POST){
+			if($this->db->save("eventos", $_POST)){
+				$this->redirect(array(
+					"controller"=>"eventos"
+				));
+			}else{
+				$this->redirect(array(
+					"controller"=>"eventos",
+					"action"=>"add"
+				));
+			}
+		}
+		$categorias = $this->db->find("calendarios", "all");
+		$this->set("calendario", $calendarios);
+	}
+
+	public function edit($args = array()){
+		if($_POST){
+			if($this->db->update("eventos", $_POST)){
+				$this->redirect(array(
+					"controller"=>"eventos"
+				));
+			}else{
+				$this->redirect(array(
+					"controller"=>"eventos",
+					"action"=>"add"
+				));
+			}
+		}
+
+		$options = array(
+			"conditions"=>"id=".$args[0]
+		);
+		$tarea = $this->db->find("eventos", "first", $options);
+		$calendarios = $this->db->find("calendarios", "all");
+		$this->set("calendarios", $calendarios);
+		$this->set("evento", $evento);
+	}
+
+	public function delete($args){
+		if($_GET){
+			$condition = "id=".$args[0];
+			$this->db->delete("eventos", $condition);
+			$this->redirect(array("controller"=>"eventos"));
+		}
+	}
+
+	
+	
+}
