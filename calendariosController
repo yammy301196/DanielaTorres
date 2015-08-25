@@ -1,0 +1,29 @@
+<?php
+
+class Calendarios extends AppController
+{
+	public function index(){
+		$categorias = $this->db->find("calendarios", "all");
+		$this->set("calendarios", $calendarios);
+	}
+	public function add(){
+		if($_POST){
+			if($this->db->save("calendarios", $_POST)){
+				$this->redirect(array(
+					"controller"=>"calendarios"
+				));
+			}else{
+				$this->redirect(array(
+					"controller"=>"calendarios",
+					"action"=>"add"
+				));
+			}
+		}
+	}
+	public function edit(){
+
+	}
+	public function delete(){
+
+	}
+} 
